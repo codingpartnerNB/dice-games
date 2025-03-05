@@ -1,0 +1,147 @@
+
+/* 
+   body {
+    background: linear-gradient(to bottom right, #0f3460, #1a1a2e);
+  } */
+  
+  /* Playzone Background */
+  .playzone-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    margin-top: 2rem;
+  }
+  
+  /* Heading */
+  .heading {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #ffffff;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  /* Games Wrapper */
+  .games-wrapper {
+    display: flex;
+    gap: 55px;
+  }
+  
+  /* Image Container */
+  .image-card-container {
+    width: 260px;
+    height: 260px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .image-card-container:hover{
+    box-shadow: 0 0 20px rgba(78, 205, 196, 0.5);
+  }
+  
+  /* Game Image - Full Cover */
+  .game-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  /* Game Title */
+  .game-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: white;
+    margin-top: 10px;
+    text-align: center;
+  }
+  
+  /* Options Container */
+  .options-container {
+    margin-top: 10px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  /* Option Button */
+  .option-button {
+    background: #ffcc00;
+    color: black;
+    font-size: 0.9rem;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 8px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .option-button:hover {
+    background: #e6b800;
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 1024px) {
+    .games-wrapper {
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 40px;
+    }
+  
+    .image-card-container {
+      width: 220px;
+      height: 220px;
+    }
+  
+    .game-title {
+      font-size: 1rem;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .games-wrapper {
+      flex-direction: column;
+      align-items: center;
+      gap: 30px;
+    }
+  
+    .image-card-container {
+      width: 90%;
+      height: auto;
+      max-width: 400px;
+    }
+  
+    .game-title {
+      font-size: 1rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .image-card-container {
+      width: 95%;
+      max-width: 350px;
+    }
+  
+    .game-title {
+      font-size: 0.9rem;
+    }
+  
+    .option-button {
+      font-size: 0.8rem;
+      padding: 8px;
+    }
+  }
+  
