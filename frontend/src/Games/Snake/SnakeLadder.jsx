@@ -27,6 +27,7 @@ function SnakeLadder() {
   const [gameState, setGameState] = useState(INITIAL_STATE);
   const [audioElements, setAudioElements] = useState({});
   const [timerActive, setTimerActive] = useState(false);
+  const [matchId, setMatchId] = useState("")
 
   // Switch to the next player
   const switchPlayer = () => {
@@ -35,8 +36,7 @@ function SnakeLadder() {
       currentPlayer: (prev.currentPlayer % prev.playersCount) + 1
     }));
   };
-
-  // Reset the game state
+  // console.log(gameState, "p")
   const resetGame = () => {
     setGameState(prev => ({
       ...prev,
@@ -72,14 +72,14 @@ function SnakeLadder() {
             clearInterval(timer);
             const winner = [...prev.players]
               .slice(0, prev.playersCount)
-              .reduce((max, player) => 
+              .reduce((max, player) =>
                 player.points > max.points ? player : max
               );
             return {
               ...prev,
               timeRemaining: 0,
               winner,
-              notification: { 
+              notification: {
                 message: `Time's up! ${winner.name} wins with ${winner.points} points!`,
                 type: 'success'
               }
@@ -112,7 +112,7 @@ function SnakeLadder() {
   };
 
   const checkPlayerCollision = (position, currentPlayerNo) => {
-    const otherPlayers = gameState.players.filter((p, idx) => 
+    const otherPlayers = gameState.players.filter((p, idx) =>
       idx !== currentPlayerNo - 1 && p.score === position && p.hasStarted
     );
 
@@ -141,10 +141,10 @@ function SnakeLadder() {
 
   const movePlayerOneStep = async (playerNo, currentPosition, targetPosition) => {
     if (currentPosition >= targetPosition) return;
-    
+
     await new Promise(resolve => setTimeout(resolve, 300));
     audioElements.drop?.play();
-    
+
     setGameState(prev => {
       const newPlayers = [...prev.players];
       newPlayers[playerNo - 1].score = currentPosition + 1;
@@ -153,57 +153,57 @@ function SnakeLadder() {
     });
 
     checkPlayerCollision(currentPosition + 1, playerNo);
-    
+
     await movePlayerOneStep(playerNo, currentPosition + 1, targetPosition);
   };
 
- // Check for ladders and snakes
- const checkLadderAndSnake = async (position, playerNumber) => {
-  // Check ladders
-  for (let i = 0; i < LADDERS.length; i++) {
-    if (LADDERS[i][0] === position) {
-      audioElements.ladder?.play();
-      setGameState(prev => {
-        const newPlayers = [...prev.players];
-        newPlayers[playerNumber - 1].points += 5;
-        return { ...prev, players: newPlayers };
-      });
-      showNotification('+5 points! Climbed a ladder!', 'success');
-      for (const pos of LADDERS[i]) {
-        await new Promise(resolve => setTimeout(resolve, 400));
+  // Check for ladders and snakes
+  const checkLadderAndSnake = async (position, playerNumber) => {
+    // Check ladders
+    for (let i = 0; i < LADDERS.length; i++) {
+      if (LADDERS[i][0] === position) {
+        audioElements.ladder?.play();
         setGameState(prev => {
           const newPlayers = [...prev.players];
-          newPlayers[playerNumber - 1].score = pos;
+          newPlayers[playerNumber - 1].points += 5;
           return { ...prev, players: newPlayers };
         });
+        showNotification('+5 points! Climbed a ladder!', 'success');
+        for (const pos of LADDERS[i]) {
+          await new Promise(resolve => setTimeout(resolve, 400));
+          setGameState(prev => {
+            const newPlayers = [...prev.players];
+            newPlayers[playerNumber - 1].score = pos;
+            return { ...prev, players: newPlayers };
+          });
+        }
+        checkPlayerCollision(LADDERS[i][LADDERS[i].length - 1], playerNumber);
+        return;
       }
-      checkPlayerCollision(LADDERS[i][LADDERS[i].length - 1], playerNumber);
-      return;
     }
-  }
 
-   // Check snakes
-   for (let i = 0; i < SNAKES.length; i++) {
-    if (SNAKES[i][0] === position) {
-      audioElements.snake?.play();
-      setGameState(prev => {
-        const newPlayers = [...prev.players];
-        newPlayers[playerNumber - 1].points -= 5;
-        return { ...prev, players: newPlayers };
-      });
-      showNotification('-5 points! Snake bite!', 'error');
-      for (const pos of SNAKES[i]) {
-        await new Promise(resolve => setTimeout(resolve, 400));
+    // Check snakes
+    for (let i = 0; i < SNAKES.length; i++) {
+      if (SNAKES[i][0] === position) {
+        audioElements.snake?.play();
         setGameState(prev => {
           const newPlayers = [...prev.players];
-          newPlayers[playerNumber - 1].score = pos;
+          newPlayers[playerNumber - 1].points -= 5;
           return { ...prev, players: newPlayers };
         });
+        showNotification('-5 points! Snake bite!', 'error');
+        for (const pos of SNAKES[i]) {
+          await new Promise(resolve => setTimeout(resolve, 400));
+          setGameState(prev => {
+            const newPlayers = [...prev.players];
+            newPlayers[playerNumber - 1].score = pos;
+            return { ...prev, players: newPlayers };
+          });
+        }
+        checkPlayerCollision(SNAKES[i][SNAKES[i].length - 1], playerNumber);
       }
-      checkPlayerCollision(SNAKES[i][SNAKES[i].length - 1], playerNumber);
     }
-  }
-};
+  };
   const movePlayer = async (playerNo, diceNumber) => {
     const player = gameState.players[playerNo - 1];
     const startPosition = player.score;
@@ -244,7 +244,7 @@ function SnakeLadder() {
     audioElements.dice?.play();
     const diceNumber = Math.floor(Math.random() * 6) + 1;
 
-    setGameState(prev => {
+    setGameState((prev) => {
       const newPlayers = [...prev.players];
       newPlayers[playerNo - 1].lastDice = diceNumber;
       return { ...prev, players: newPlayers, currentPlayer: 0 };
@@ -256,7 +256,7 @@ function SnakeLadder() {
     let gameWon = false;
 
     if (!player.hasStarted && (diceNumber === 1 || diceNumber === 6)) {
-      setGameState(prev => {
+      setGameState((prev) => {
         const newPlayers = [...prev.players];
         newPlayers[playerNo - 1].hasStarted = true;
         newPlayers[playerNo - 1].score = 1;
@@ -271,7 +271,7 @@ function SnakeLadder() {
       }
     } else if (player.hasStarted) {
       gameWon = await movePlayer(playerNo, diceNumber);
-      
+
       if (diceNumber === 6 && !gameWon) {
         setGameState(prev => ({
           ...prev,
@@ -322,6 +322,8 @@ function SnakeLadder() {
             playersCount={gameState.playersCount}
             onSelectPlayers={selectPlayers}
             onStart={() => setGameState(prev => ({ ...prev, screen: 'setup' }))}
+            matchId={matchId}
+            setMatchId={setMatchId}
           />
         );
       case 'setup':
@@ -333,6 +335,8 @@ function SnakeLadder() {
             onNameChange={handleNameChange}
             onNext={() => setGameState(prev => ({ ...prev, screen: 'game' }))}
             onBack={() => setGameState(prev => ({ ...prev, screen: 'select' }))}
+            matchId={matchId}
+            setMatchId={setMatchId}
           />
         );
       case 'game':
@@ -352,6 +356,8 @@ function SnakeLadder() {
             scores={gameState.players.map(player => player.points)}
             resetGame={resetGame}
             showPopup={showNotification}
+            matchId={matchId}
+            // setMatchId={setMatchId}
           />
         );
       default:

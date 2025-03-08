@@ -13,7 +13,8 @@ const GamerLogin = () => {
     password: '',
     state: '',
     city: '',
-    role: 'gamer'
+    role: 'gamer',
+    group:''
   });
 
   const navigate = useNavigate();
@@ -24,6 +25,7 @@ const GamerLogin = () => {
       const res = await axios.post('http://localhost:5000/api/auth/signup', formData);
       localStorage.setItem('token', res.data.token);
       navigate('/login');
+      setIsLogin(true)
     } catch (err) {
       console.error(NativeError);
     }
@@ -52,7 +54,7 @@ const GamerLogin = () => {
 
   return (
     <div className="w-full flex items-center justify-center">
-      <div className="bg-white/10 backdrop-blur-lg rounded-2xl shadow-xl w-full max-w-md p-8 transition-all duration-300 hover:shadow-2xl">
+      <div className="bg-white/10 backdrop-blur-lg rounded-2xl shadow-xl w-full max-w-md p-8 transition-all duration-300 hover:shadow-2xl overflow-y-auto h-auto max-h-[80vh] custom-scroll">
       <h1 className="text-4xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 to-yellow-700 mb-4">Diice Raja</h1>
         <h2 className="text-xl font-bold text-white mb-8 text-center">
           {isLogin ? 'Gamer Login' : 'Gamer Sign Up'}
@@ -86,6 +88,8 @@ const GamerLogin = () => {
               required
             />
           </div>
+
+
 
           {!isLogin && (
             <>
@@ -154,6 +158,22 @@ const GamerLogin = () => {
               {showPassword ? <FaEyeSlash /> : <FaEye />}
               </button>
           </div>
+
+     {!isLogin &&     
+          <div className="relative group">
+            <FaEnvelope className="absolute top-1/2 left-3 -translate-y-1/2 text-white/80" />
+            <select
+              name="group"
+              className="w-full pl-10 pr-4 py-3 bg-gradient-to-r from-purple-500/20 to-blue-500/20 rounded-lg outline-none focus:ring-2 ring-white/50 transition-all duration-300 text-white"
+              value={formData.group}
+              onChange={handleChange}
+              required
+            >
+              <option value="" disabled style={{ color: "black" }}>Select Group</option>
+              <option value="groupA" style={{ color: "black"}}>Group A</option>
+              <option value="groupB" style={{ color: "black" }}>Group B</option>
+            </select>
+          </div>}
 
           <button
             type="submit"

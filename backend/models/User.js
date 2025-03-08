@@ -8,7 +8,8 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   state: { type: String, required: true },
   city: { type: String, required: true },
-  role: { type: String, enum: ['user', 'gamer'], default: 'user' }
+  role: { type: String, enum: ['user', 'gamer'], default: 'user' },
+  group:{type:String, required:function() { return this.role === 'gamer' }}
 });
 
 userSchema.pre('save', async function (next) {

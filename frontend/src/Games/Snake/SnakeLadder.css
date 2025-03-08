@@ -129,6 +129,7 @@ button:hover {
   font-size: 20px;
   letter-spacing: 1px;
   font-weight: normal;
+  color: black;
 }
 
 .board {
@@ -138,6 +139,8 @@ button:hover {
   z-index: 1;
   width: 600px;
   max-width: 100%;
+  padding: 0px;
+  /* border-radius: 0px; */
   aspect-ratio: 1;
   box-shadow: -9px -9px 20px 5px rgba(0, 0, 0, 0.1),
     9px 9px 20px 5px rgba(0, 0, 0, 0.1);
@@ -359,7 +362,7 @@ button:hover {
 
 .screen {
   width: 100%;
-  min-height: 100dvh;
+  min-height: 100vh;
   padding: 16px;
   background-image: url("/images/blur-snake.webp");
   background-repeat: no-repeat;
@@ -401,6 +404,7 @@ button:hover {
   display: flex;
   justify-content: center;
   align-items: center;
+  color: black;
   flex-direction: column;
   border-radius: 95% 10% 86% 14% / 10% 90% 10% 90%;
   transition: all 0.5s;
@@ -480,6 +484,7 @@ button:hover {
   display: flex;
   justify-content: center;
   align-items: center;
+  color: black;
   padding: 0 6px;
   user-select: none;
   background-color: #ffffff8e;
@@ -501,6 +506,7 @@ button:hover {
 .inputName input {
   width: 100%;
   background-color: #ffffff88;
+  color: black;
   border: none;
   padding: 12px 16px;
   border-radius: 6px;
@@ -740,8 +746,10 @@ button:hover {
 .game-boxing {
   display: flex;
   justify-content: center;
+  padding: 16px;
   align-items: center;
   flex-direction: column;
-  gap: 20px;
+  border-radius: 12px;
+  gap: 16px;
   background-color: #ffffff6b;
 }

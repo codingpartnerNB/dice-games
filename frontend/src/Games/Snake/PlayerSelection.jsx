@@ -6,6 +6,7 @@ export const PlayerSelection = ({
   onSelectPlayers,
   onStart,
 }) => {
+  // console.log(playersCount)
   return (
     <div className="s1-card">
       <h1>Snakes and Ladder Game</h1>

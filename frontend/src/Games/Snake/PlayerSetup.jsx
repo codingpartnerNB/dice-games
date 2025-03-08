@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import "./SnakeLadder.css";
+import axios from 'axios';
 
 export const PlayerSetup = ({
   players,
@@ -8,6 +9,8 @@ export const PlayerSetup = ({
   onNameChange,
   onNext,
   onBack,
+  matchId,
+  setMatchId
 }) => {
   // Keep track of input values locally
   const [inputValues, setInputValues] = useState(
@@ -17,13 +20,15 @@ export const PlayerSetup = ({
     }, {})
   );
 
+  // console.log(inputValues)
+
   const handleNameChange = (playerNo, value) => {
     // Update local state immediately for smooth typing
     setInputValues(prev => ({
       ...prev,
       [playerNo]: value
     }));
-    
+
     // If empty, use default name
     const newName = value.trim() || `Player${playerNo}`;
     onNameChange(playerNo, newName);
@@ -39,6 +44,38 @@ export const PlayerSetup = ({
     }));
     onNameChange(playerNo, newName);
   };
+
+  const [gamePlayers, setGamePlayers] = useState([]);
+ 
+  useEffect(() => {
+    setGamePlayers(players.slice(0, playersCount).map(player => ({
+      name: player.name,
+      score: player.score
+    })));
+    setMatchId(`match-${new Date().getTime().toString(36)}`);
+  }, [players, playersCount]);
+  console.log(gamePlayers);
+
+
+
+  const StartGame = async () => {
+    // onNext();
+    try {
+      const response = await axios.post(`http://localhost:5000/api/snakeladder/create`,
+        {
+          matchId:matchId,
+          playersCount: playersCount,
+          players: gamePlayers
+        })
+        console.log(response.status)
+      if (response.status == 201) {
+        // alert("gameStart")
+        onNext()
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <div className="s1-card">
@@ -72,7 +109,7 @@ export const PlayerSetup = ({
         ))}
       </div>
       <button className="startBtn" onClick={onBack}>Back</button>
-      <button className="startBtn next" onClick={onNext}>NEXT</button>
+      <button className="startBtn next" onClick={StartGame}>NEXT</button>
     </div>
   );
 };

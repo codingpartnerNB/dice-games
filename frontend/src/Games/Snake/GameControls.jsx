@@ -51,3 +51,4 @@ export const GameControls = ({
     </div>
   );
 };
+

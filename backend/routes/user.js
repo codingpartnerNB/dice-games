@@ -4,7 +4,7 @@ const User = require('../models/User');
 const authMiddleware = require('../middleware/auth');
 
 // Fetch user profile
-router.get('/profile', authMiddleware, async (req, res) => {
+router.get('/profile', async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select('-password'); // Exclude password
     if (!user) throw new Error('User not found');

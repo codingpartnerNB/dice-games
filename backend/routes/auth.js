@@ -7,10 +7,10 @@ const authMiddleware = require('../middleware/auth');
 
 // Signup
 router.post('/signup', async (req, res) => {
-  const { name, email, phone, password, state, city, role } = req.body;
+  const { name, email, phone, password, state, city, role, group } = req.body;
   console.log(req.body);
   try {
-    const user = new User({ name, email, phone, password, state, city, role });
+    const user = new User({ name, email, phone, password, state, city, role, group });
     await user.save();
     const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET);
     res.status(201).json({ token });

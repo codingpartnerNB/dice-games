@@ -9,6 +9,7 @@ import LoginToggle from "./components/LoginToggle";
 import TicTac from './Games/TicTac/TicTac';
 import Playzone from "./Games/Playzone/Playzone";
 import PricingCards from './components/PricingCards';
+import SnakeLadder from './Games/Snake/SnakeLadder';
 import "./App.css";
 
 const App = () => {
@@ -24,6 +25,7 @@ const App = () => {
         <Route path ="tictactoe" element={<TicTac />} />
         <Route path ="playzone" element={<Playzone />} />
         <Route path ="pricing" element={<PricingCards />} />
+        <Route path="snake" element={<SnakeLadder />}></Route>
       </Routes>
     </>
   )
